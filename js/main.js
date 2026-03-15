@@ -106,7 +106,7 @@ function displayBooks() {
       ${book.hasRead ? "Mark Unread" : "Mark Read"}
         </button>
 
-    <button class="delete-book" data-id="${book.id}">Delete </button>
+    <button class="delete-book" data-id="${book.id}">Remove</button>
     `;
 
     libraryContainer.appendChild(card);

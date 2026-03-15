@@ -1,44 +1,146 @@
-.hidden {
-  display: none;
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: "Rubik", sans-serif;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  min-height: 100vh;
 }
 
-body {
-  display: grid;
-  grid-template-rows: 90px 1fr 40px;
-  height: 100vh;
-  width: 100vw;
+.header {
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 16px 16px rgba(0, 0, 0, 0.397);
+  background-color: rgb(34, 32, 32);
+  color: white;
 }
 
 .main {
-  display: block;
-  unicode-bidi: isolate;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #413b3b94;
 }
 
 .open-form-btn {
   display: block;
-  margin: 0 auto;
-  background-color: rgba(250, 235, 215, 0);
+  margin: 10px auto;
+  background-color: rgba(0, 0, 0, 0.63);
+  color: white;
   border: none;
   border-radius: 10px;
   font-size: 20px;
-  font-weight: 700;
+  padding: 10px;
+  font-weight: 500;
 }
 
 .open-form-btn:hover {
-  background-color: rgba(38, 40, 41, 0.267);
+  background-color: #161414d7;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+
+  animation: fadeIn 0.2 ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.add-book-form {
+  background-color: rgb(37, 37, 37);
+  padding: 25px;
+  border-radius: 10px;
+  width: 300px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  color: white;
+}
+
+.close-form-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: white;
+}
+.close-form-btn:hover {
+  color: #949494;
+}
+
+.input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.add-book-btn {
+  margin-top: 10px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.add-book-btn:hover {
+  background-color: #43a047;
 }
 
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, 250px);
   gap: 20px;
   margin-top: 20px;
+  width: 100%;
 }
 
 .book-card {
-  border: 1px solid #ccc;
+  border: 1px solid #2c2a2a;
   padding: 16px;
   border-radius: 8px;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+  background-color: #2c2a2a;
+  color: white;
+  max-width: 250px;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.603);
 }
 
 .toggle-read {
@@ -53,7 +155,70 @@ body {
   color: white;
 }
 
+.read:hover {
+  background-color: #2f7732;
+}
+
 .not-read {
   background-color: #e74c4c;
   color: white;
+}
+
+.not-read:hover {
+  background-color: #ad3939;
+}
+
+.delete-book {
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: white;
+  background-color: #e74c4c;
+}
+
+.delete-book:hover {
+  background-color: #ad3939;
+}
+
+.hidden {
+  display: none;
+}
+
+.footer {
+  background-color: #1a1717;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  color: rgb(255, 249, 249);
+  box-shadow: 0px -12px 16px rgba(0, 0, 0, 0.397);
+}
+
+.footer p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.github-logo {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease-in-out;
+  filter: invert(1) brightness(1.2);
+}
+
+.github-logo:hover {
+  transform: rotate(360deg);
+}
+
+a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
 }

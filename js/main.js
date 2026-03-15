@@ -1,8 +1,22 @@
+// Select Elements
+const openFormBtn = document.querySelector(".open-form-btn");
+const formModal = document.querySelector("#addBookModal");
+const form = document.querySelector("#addBookForm");
+const addBookBtn = document.querySelector(".add-book-btn");
+const libraryContainer = document.querySelector(".books-grid");
+const closeFormBtn = document.querySelector(".close-form-btn");
+const title = document.querySelector("#title");
+const author = document.querySelector("#author");
+const pages = document.querySelector("#pages");
+const hasRead = document.querySelector("#isRead");
+
+// Books Array
 let library = [];
 
+// Book Constructor
 function Book(title, author, pages, hasRead) {
   if (!new.target) {
-    throw error("Use new to create object");
+    throw new Error("Use new to create object");
   }
   this.title = title;
   this.author = author;
@@ -11,42 +25,25 @@ function Book(title, author, pages, hasRead) {
   this.id = crypto.randomUUID();
 }
 
-Book.prototype.display = function () {
-  return `Title: ${this.title} , Author: ${this.author} , Pages: ${this.pages}, Read: ${this.hasRead}, ID: ${this.id}`;
-};
-
-function addBookToLibrary(title, author, pages, hasRead) {
-  library.push(new Book(title, author, pages, hasRead));
-  console.log(`${title} has been added to the library`);
-}
-
-// function displayBooks() {
-//   for (let book of library) {
-//     console.log(book.display());
-//   }
-// }
-
-// Select Elements
-const openFormBtn = document.querySelector(".open-form-btn");
-const formModal = document.querySelector("#addBookModal");
-const form = document.querySelector("#addBookForm");
-const addBookBtn = document.querySelector(".add-book-btn");
-const libraryContainer = document.querySelector(".books-grid");
-
 // Event Listeners
+
+// Open Form Button Listener
 openFormBtn.addEventListener("click", () => {
   formModal.classList.remove("hidden");
 });
 
+// Add Book Button Listener
 addBookBtn.addEventListener("click", function (event) {
   event.preventDefault();
 
-  const title = document.querySelector("#title");
-  const author = document.querySelector("#author");
-  const pages = document.querySelector("#pages");
-  const hasRead = document.querySelector("#isRead");
+  if (!title.value.trim() || !author.value.trim() || !pages.value) return;
 
-  addBookToLibrary(title.value, author.value, pages.value, hasRead.checked);
+  addBookToLibrary(
+    title.value,
+    author.value,
+    Number(pages.value),
+    hasRead.checked,
+  );
 
   formModal.classList.add("hidden");
 
@@ -55,11 +52,45 @@ addBookBtn.addEventListener("click", function (event) {
   displayBooks();
 });
 
-// Display Books in grid
+//Form Close Button Listener
+closeFormBtn.addEventListener("click", () => {
+  formModal.classList.add("hidden");
+});
+
+// Book Grid Container Listener
+libraryContainer.addEventListener("click", function (event) {
+  if (event.target.classList.contains("toggle-read")) {
+    const id = event.target.dataset.id;
+    const book = library.find((book) => book.id === id);
+    if (!book) return;
+
+    book.hasRead = !book.hasRead;
+
+    displayBooks();
+    saveLibrary();
+  }
+  if (event.target.classList.contains("delete-book")) {
+    const id = event.target.dataset.id;
+    library = library.filter((book) => book.id !== id);
+
+    displayBooks();
+    saveLibrary();
+  }
+});
+
+// Functions
+
+// Add Books To Library Function
+function addBookToLibrary(title, author, pages, hasRead) {
+  library.push(new Book(title, author, pages, hasRead));
+  saveLibrary();
+}
+
+// Display Books In Grid Function
 function displayBooks() {
   libraryContainer.innerHTML = "";
 
-  library.forEach(function (book) {
+  library.forEach((book) => {
     const card = document.createElement("div");
     card.classList.add("book-card");
 
@@ -68,10 +99,34 @@ function displayBooks() {
     <p>${book.author}</p>
     <p>${book.pages} pages</p>
     <p>${book.hasRead ? "Read" : "Not Read"}</p>
+
+    <button 
+      class="toggle-read ${book.hasRead ? "read" : "not-read"}" 
+      data-id="${book.id}">
+      ${book.hasRead ? "Mark Unread" : "Mark Read"}
+        </button>
+
+    <button class="delete-book" data-id="${book.id}">Delete </button>
     `;
 
     libraryContainer.appendChild(card);
   });
 }
 
-//Use array to add the element to the grid.
+// Save Library
+function saveLibrary() {
+  localStorage.setItem("library", JSON.stringify(library));
+}
+
+// Load Library
+function loadLibrary() {
+  const stored = localStorage.getItem("library");
+
+  if (stored) {
+    library = JSON.parse(stored);
+  }
+}
+
+// Load and Display Library
+loadLibrary();
+displayBooks();

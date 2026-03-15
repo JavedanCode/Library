@@ -40,3 +40,20 @@ body {
   padding: 16px;
   border-radius: 8px;
 }
+
+.toggle-read {
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.read {
+  background-color: #4caf50;
+  color: white;
+}
+
+.not-read {
+  background-color: #e74c4c;
+  color: white;
+}

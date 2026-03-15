@@ -12,7 +12,7 @@ function Book(title, author, pages, hasRead) {
 }
 
 Book.prototype.display = function () {
-  return `Title: ${this.title} , Author: ${this.title} , Pages: ${this.pages}, Read: ${this.hasRead}, ID: ${this.id}`;
+  return `Title: ${this.title} , Author: ${this.author} , Pages: ${this.pages}, Read: ${this.hasRead}, ID: ${this.id}`;
 };
 
 function addBookToLibrary(title, author, pages, hasRead) {
@@ -20,22 +20,18 @@ function addBookToLibrary(title, author, pages, hasRead) {
   console.log(`${title} has been added to the library`);
 }
 
-function displayBooks() {
-  for (let book of library) {
-    console.log(book.display());
-  }
-}
-
-// addBookToLibrary("1984", "George Orwell", 382);
-// addBookToLibrary("Atomic Habit", "James Claire", 256);
-
-// displayBooks();
+// function displayBooks() {
+//   for (let book of library) {
+//     console.log(book.display());
+//   }
+// }
 
 // Select Elements
-let openFormBtn = document.querySelector(".open-form-btn");
-let formModal = document.querySelector("#addBookModal");
-let form = document.querySelector("#addBookForm");
-let addBookBtn = document.querySelector(".add-book-btn");
+const openFormBtn = document.querySelector(".open-form-btn");
+const formModal = document.querySelector("#addBookModal");
+const form = document.querySelector("#addBookForm");
+const addBookBtn = document.querySelector(".add-book-btn");
+const libraryContainer = document.querySelector(".books-grid");
 
 // Event Listeners
 openFormBtn.addEventListener("click", () => {
@@ -45,17 +41,37 @@ openFormBtn.addEventListener("click", () => {
 addBookBtn.addEventListener("click", function (event) {
   event.preventDefault();
 
-  const title = document.querySelector("#title").value;
-  const author = document.querySelector("#author").value;
-  const pages = document.querySelector("#pages").value;
-  const hasRead = document.querySelector("#isRead").checked;
+  const title = document.querySelector("#title");
+  const author = document.querySelector("#author");
+  const pages = document.querySelector("#pages");
+  const hasRead = document.querySelector("#isRead");
 
-  addBookToLibrary(title, author, pages, hasRead);
+  addBookToLibrary(title.value, author.value, pages.value, hasRead.checked);
 
-  console.log(displayBooks());
+  formModal.classList.add("hidden");
+
+  form.reset();
+
+  displayBooks();
 });
 
-//When Add Button is clicked the modal form is displayed.
-//When Add Book Button on from is clicked extract the information from the form
-//Create a new book object and put it inside array
+// Display Books in grid
+function displayBooks() {
+  libraryContainer.innerHTML = "";
+
+  library.forEach(function (book) {
+    const card = document.createElement("div");
+    card.classList.add("book-card");
+
+    card.innerHTML = `
+    <h3>${book.title}</h3>
+    <p>${book.author}</p>
+    <p>${book.pages} pages</p>
+    <p>${book.hasRead ? "Read" : "Not Read"}</p>
+    `;
+
+    libraryContainer.appendChild(card);
+  });
+}
+
 //Use array to add the element to the grid.

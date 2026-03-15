@@ -5,7 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/style.css" />
     <script type="module" src="./js/main.js"></script>
-    <title>Document</title>
+    <title>Library</title>
   </head>
-  <body></body>
+  <body>
+    <div class="header"><h1>Library</h1></div>
+    <div class="main">
+      <button class="open-form-btn">Add Book +</button>
+      <div class="books-grid"></div>
+    </div>
+    <footer class="footer">
+      <p>
+        Copyright © 2026
+        <a href="https://github.com/JavedanCode"
+          >JavedanCode
+          <img class="github-logo" src="./img/github-mark.svg" alt=""
+        /></a>
+      </p>
+    </footer>
+
+    <div class="modal hidden" id="addBookModal" bis-skin-checked="1">
+      <form class="add-book-form" id="addBookForm">
+        <h3>Add new book</h3>
+        <input
+          class="input"
+          type="text"
+          id="title"
+          placeholder="Title"
+          required=""
+          maxlength="100"
+        />
+        <p class="error-msg" id="errorMsg"></p>
+        <input
+          class="input"
+          type="text"
+          id="author"
+          placeholder="Author"
+          required=""
+          maxlength="100"
+        />
+        <input
+          class="input"
+          type="number"
+          id="pages"
+          placeholder="Pages"
+          required=""
+          max="10000"
+        />
+        <div class="is-read" bis_skin_checked="1">
+          <label for="is-read">Have you read it?</label>
+          <input class="checkbox" type="checkbox" id="isRead" />
+        </div>
+        <button class="add-book-btn" type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
 </html>
